@@ -1,4 +1,4 @@
-# Metal Selector Pro 🧪
+# Metal Selector 🧪
 
 **Advanced Material Science & Steel Selection Platform**
 
@@ -336,20 +336,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 📞 Support
 
-### Documentation
-- [User Guide](https://docs.metal-selector.com)
-- [API Reference](https://api.metal-selector.com)
-- [PWA Guide](https://pwa.metal-selector.com)
-
-### Community
-- [Discord Server](https://discord.gg/metal-selector)
-- [GitHub Discussions](https://github.com/metal-selector/metal-selector-pro/discussions)
-- [Material Science Forum](https://forum.metal-selector.com)
-
 ### Professional Support
-- **Email**: support@metal-selector.com
-- **Phone**: +1 (555) 123-4567
-- **Enterprise**: enterprise@metal-selector.com
+- **Email**: ck7464877@gmail.com
+- **Phone**: +91 9915126389
 
 ---
 
