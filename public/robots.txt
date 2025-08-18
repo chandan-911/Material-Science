@@ -1,0 +1,23 @@
+# Allow all web crawlers (search engine bots)
+User-agent: *
+Allow: /
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Sitemap location
+Sitemap: https://metal-selector.com/sitemap.xml
+Allow: /
+
+User-agent: *
+Allow: /

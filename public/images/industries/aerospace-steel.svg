@@ -1,0 +1,70 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aerospaceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#0f172a" rx="20"/>
+  
+  <!-- Aerospace Components -->
+  <!-- Aircraft Frame Structure -->
+  <g filter="url(#glow)">
+    <!-- Main Fuselage -->
+    <ellipse cx="200" cy="150" rx="80" ry="40" fill="none" stroke="#60a5fa" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Wings -->
+    <rect x="120" y="130" width="160" height="8" rx="4" fill="url(#aerospaceGrad)" opacity="0.9"/>
+    <rect x="120" y="162" width="160" height="8" rx="4" fill="url(#aerospaceGrad)" opacity="0.9"/>
+    
+    <!-- Structural Beams -->
+    <line x1="160" y1="110" x2="160" y2="190" stroke="#3b82f6" stroke-width="4" opacity="0.7"/>
+    <line x1="240" y1="110" x2="240" y2="190" stroke="#3b82f6" stroke-width="4" opacity="0.7"/>
+    
+    <!-- Titanium Alloy Representation -->
+    <circle cx="100" cy="80" r="15" fill="#fbbf24" opacity="0.8"/>
+    <text x="100" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">Ti</text>
+    
+    <!-- High-Temp Steel -->
+    <circle cx="300" cy="80" r="15" fill="#ef4444" opacity="0.8"/>
+    <text x="300" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">HT</text>
+    
+    <!-- Lightweight Materials -->
+    <circle cx="100" cy="220" r="15" fill="#10b981" opacity="0.8"/>
+    <text x="100" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">LW</text>
+    
+    <!-- Fatigue Resistance -->
+    <circle cx="300" cy="220" r="15" fill="#8b5cf6" opacity="0.8"/>
+    <text x="300" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">FR</text>
+  </g>
+  
+  <!-- Material Properties -->
+  <g opacity="0.9">
+    <text x="200" y="50" text-anchor="middle" fill="#60a5fa" font-size="14" font-weight="bold">Aerospace Steel & Alloys</text>
+    <text x="200" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">High-Performance Materials for Critical Applications</text>
+  </g>
+  
+  <!-- Technical Specifications -->
+  <g opacity="0.7">
+    <text x="50" y="100" fill="#60a5fa" font-size="9" font-weight="bold">• Titanium Alloys</text>
+    <text x="50" y="115" fill="#94a3b8" font-size="8">  High strength-to-weight</text>
+    
+    <text x="250" y="100" fill="#60a5fa" font-size="9" font-weight="bold">• High-Temp Steels</text>
+    <text x="250" y="115" fill="#94a3b8" font-size="8">  Thermal resistance</text>
+    
+    <text x="50" y="240" fill="#60a5fa" font-size="9" font-weight="bold">• Lightweight Materials</text>
+    <text x="50" y="255" fill="#94a3b8" font-size="8">  Fuel efficiency</text>
+    
+    <text x="250" y="240" fill="#60a5fa" font-size="9" font-weight="bold">• Fatigue Resistance</text>
+    <text x="250" y="255" fill="#94a3b8" font-size="8">  Longevity & safety</text>
+  </g>
+</svg>

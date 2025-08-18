@@ -1,0 +1,79 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="autoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#0f172a" rx="20"/>
+  
+  <!-- Automotive Components -->
+  <g filter="url(#glow)">
+    <!-- Car Body Structure -->
+    <rect x="150" y="120" width="100" height="60" rx="20" fill="none" stroke="#10b981" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Roof -->
+    <ellipse cx="200" cy="120" rx="50" ry="20" fill="none" stroke="#10b981" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Wheels -->
+    <circle cx="170" cy="180" r="20" fill="url(#autoGrad)" opacity="0.9"/>
+    <circle cx="230" cy="180" r="20" fill="url(#autoGrad)" opacity="0.9"/>
+    
+    <!-- Safety Cage Structure -->
+    <rect x="160" y="125" width="80" height="50" fill="none" stroke="#059669" stroke-width="2" opacity="0.6"/>
+    <line x1="180" y1="125" x2="180" y2="175" stroke="#059669" stroke-width="2" opacity="0.6"/>
+    <line x1="220" y1="125" x2="220" y2="175" stroke="#059669" stroke-width="2" opacity="0.6"/>
+    
+    <!-- High-Strength Steel -->
+    <circle cx="100" cy="80" r="15" fill="#ef4444" opacity="0.8"/>
+    <text x="100" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">HS</text>
+    
+    <!-- Crash-Resistant -->
+    <circle cx="300" cy="80" r="15" fill="#f59e0b" opacity="0.8"/>
+    <text x="300" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">CR</text>
+    
+    <!-- Lightweight -->
+    <circle cx="100" cy="220" r="15" fill="#8b5cf6" opacity="0.8"/>
+    <text x="100" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">LW</text>
+    
+    <!-- Corrosion Protection -->
+    <circle cx="300" cy="220" r="15" fill="#06b6d4" opacity="0.8"/>
+    <text x="300" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">CP</text>
+  </g>
+  
+  <!-- Material Properties -->
+  <g opacity="0.9">
+    <text x="200" y="50" text-anchor="middle" fill="#10b981" font-size="14" font-weight="bold">Automotive Steel & Alloys</text>
+    <text x="200" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Advanced Materials for Safety & Efficiency</text>
+  </g>
+  
+  <!-- Technical Specifications -->
+  <g opacity="0.7">
+    <text x="50" y="100" fill="#10b981" font-size="9" font-weight="bold">• High-Strength Steel</text>
+    <text x="50" y="115" fill="#94a3b8" font-size="8">  Crash protection</text>
+    
+    <text x="250" y="100" fill="#10b981" font-size="9" font-weight="bold">• Crash-Resistant Alloys</text>
+    <text x="250" y="115" fill="#94a3b8" font-size="8">  Passenger safety</text>
+    
+    <text x="50" y="240" fill="#10b981" font-size="9" font-weight="bold">• Lightweight Solutions</text>
+    <text x="50" y="255" fill="#94a3b8" font-size="8">  Fuel efficiency</text>
+    
+    <text x="250" y="240" fill="#10b981" font-size="9" font-weight="bold">• Corrosion Protection</text>
+    <text x="250" y="255" fill="#94a3b8" font-size="8">  Longevity</text>
+  </g>
+  
+  <!-- Safety Features -->
+  <g opacity="0.6">
+    <text x="200" y="200" text-anchor="middle" fill="#10b981" font-size="10" font-weight="bold">Safety Cage Technology</text>
+    <text x="200" y="215" text-anchor="middle" fill="#94a3b8" font-size="8">Advanced High-Strength Steel Construction</text>
+  </g>
+</svg>

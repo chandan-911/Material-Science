@@ -1,0 +1,90 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="constructionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ea580c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#0f172a" rx="20"/>
+  
+  <!-- Construction Components -->
+  <g filter="url(#glow)">
+    <!-- Building Structure -->
+    <rect x="150" y="100" width="100" height="120" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Foundation -->
+    <rect x="140" y="220" width="120" height="20" fill="url(#constructionGrad)" opacity="0.9"/>
+    
+    <!-- Steel Beams -->
+    <rect x="160" y="110" width="80" height="8" fill="url(#constructionGrad)" opacity="0.8"/>
+    <rect x="160" y="140" width="80" height="8" fill="url(#constructionGrad)" opacity="0.8"/>
+    <rect x="160" y="170" width="80" height="8" fill="url(#constructionGrad)" opacity="0.8"/>
+    <rect x="160" y="200" width="80" height="8" fill="url(#constructionGrad)" opacity="0.8"/>
+    
+    <!-- Vertical Supports -->
+    <rect x="170" y="110" width="6" height="110" fill="url(#constructionGrad)" opacity="0.7"/>
+    <rect x="224" y="110" width="6" height="110" fill="url(#constructionGrad)" opacity="0.7"/>
+    
+    <!-- Rebar -->
+    <line x1="180" y1="220" x2="180" y2="240" stroke="#f59e0b" stroke-width="3" opacity="0.8"/>
+    <line x1="200" y1="220" x2="200" y2="240" stroke="#f59e0b" stroke-width="3" opacity="0.8"/>
+    <line x1="220" y1="220" x2="220" y2="240" stroke="#f59e0b" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Structural Steel -->
+    <circle cx="100" cy="80" r="15" fill="#ef4444" opacity="0.8"/>
+    <text x="100" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">SS</text>
+    
+    <!-- Reinforcement -->
+    <circle cx="300" cy="80" r="15" fill="#f59e0b" opacity="0.8"/>
+    <text x="300" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">RB</text>
+    
+    <!-- High-Strength -->
+    <circle cx="100" cy="220" r="15" fill="#8b5cf6" opacity="0.8"/>
+    <text x="100" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">HS</text>
+    
+    <!-- Weather Resistant -->
+    <circle cx="300" cy="220" r="15" fill="#06b6d4" opacity="0.8"/>
+    <text x="300" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">WR</text>
+  </g>
+  
+  <!-- Material Properties -->
+  <g opacity="0.9">
+    <text x="200" y="50" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="bold">Construction Steel & Materials</text>
+    <text x="200" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Structural Materials for Infrastructure Projects</text>
+  </g>
+  
+  <!-- Technical Specifications -->
+  <g opacity="0.7">
+    <text x="50" y="100" fill="#ef4444" font-size="9" font-weight="bold">• Structural Steel</text>
+    <text x="50" y="115" fill="#94a3b8" font-size="8">  Load-bearing capacity</text>
+    
+    <text x="250" y="100" fill="#ef4444" font-size="9" font-weight="bold">• Reinforcement Bars</text>
+    <text x="250" y="115" fill="#94a3b8" font-size="8">  Concrete strengthening</text>
+    
+    <text x="50" y="240" fill="#ef4444" font-size="9" font-weight="bold">• High-Strength Bolts</text>
+    <text x="50" y="255" fill="#94a3b8" font-size="8">  Structural connections</text>
+    
+    <text x="250" y="240" fill="#ef4444" font-size="9" font-weight="bold">• Weather Resistance</text>
+    <text x="250" y="255" fill="#94a3b8" font-size="8">  Environmental protection</text>
+  </g>
+  
+  <!-- Construction Features -->
+  <g opacity="0.6">
+    <text x="200" y="250" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">Steel Frame Construction</text>
+    <text x="200" y="265" text-anchor="middle" fill="#94a3b8" font-size="8">Advanced Structural Steel Technology</text>
+  </g>
+  
+  <!-- Safety Standards -->
+  <g opacity="0.5">
+    <text x="200" y="280" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="bold">ASTM A36 • A572 • A992 Standards</text>
+  </g>
+</svg>

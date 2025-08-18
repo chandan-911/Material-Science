@@ -1,0 +1,44 @@
+
+<svg width="96" height="96" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#grad1)" stroke="#0F172A" stroke-width="8"/>
+  
+  <!-- Industrial gear icon -->
+  <g transform="translate(256, 256)">
+    <!-- Main gear -->
+    <circle cx="0" cy="0" r="80" fill="none" stroke="white" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- Gear teeth -->
+    <g stroke="white" stroke-width="12" stroke-linecap="round">
+      <line x1="0" y1="-80" x2="0" y2="-120"/>
+      <line x1="0" y1="80" x2="0" y2="120"/>
+      <line x1="-80" y1="0" x2="-120" y2="0"/>
+      <line x1="80" y1="0" x2="120" y2="0"/>
+      
+      <line x1="-56.57" y1="-56.57" x2="-84.85" y2="-84.85"/>
+      <line x1="56.57" y1="56.57" x2="84.85" y2="84.85"/>
+      <line x1="-56.57" y1="56.57" x2="-84.85" y2="84.85"/>
+      <line x1="56.57" y1="-56.57" x2="84.85" y2="-84.85"/>
+    </g>
+    
+    <!-- Center circle -->
+    <circle cx="0" cy="0" r="20" fill="white"/>
+    
+    <!-- Steel/metal representation -->
+    <g fill="white" opacity="0.8">
+      <rect x="-40" y="-8" width="80" height="16" rx="8"/>
+      <rect x="-8" y="-40" width="16" height="80" rx="8"/>
+    </g>
+  </g>
+  
+  <!-- Text elements (optional for larger icons) -->
+  <text x="256" y="420" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">METAL</text>
+  <text x="256" y="450" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">SELECTOR</text>
+</svg>

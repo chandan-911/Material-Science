@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Metal Selector - Advanced Material Science & Steel Selection Platform</title>
+    
+    <!-- PWA Icons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/pwa-icons/icon-192x192.svg">
+    <link rel="apple-touch-icon" sizes="152x152" href="/pwa-icons/icon-152x152.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/pwa-icons/icon-192x192.svg">
+    <link rel="apple-touch-icon" sizes="167x167" href="/pwa-icons/icon-152x152.svg">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#38BDF8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Metal Selector">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#38BDF8">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Enhanced SEO for Material Science Industry -->
+    <meta name="description" content="Professional-grade steel and alloy selection platform for engineers, metallurgists, and material scientists. Advanced AI-powered recommendations with comprehensive material databases, 3D visualization, and predictive analysis for aerospace, automotive, marine, and industrial applications." />
+    <meta name="keywords" content="steel selection, metal advisor, metallurgy, steel grades, material properties, engineering materials, alloy design, material science, aerospace materials, automotive steel, marine alloys, construction materials, material database, AI material selection, 3D material visualization" />
+    <meta name="author" content="Metal Selector  Team" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    
+    <!-- Industry-Specific Keywords -->
+    <meta name="keywords" content="AISI steel grades, ASTM standards, SAE specifications, high-strength steel, corrosion-resistant alloys, heat-resistant materials, lightweight alloys, structural steel, tool steel, stainless steel, carbon steel, alloy steel, material properties database, mechanical properties, thermal properties, chemical composition, material selection guide, engineering material advisor" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Metal Selector - Advanced Material Science & Steel Selection Platform" />
+    <meta property="og:description" content="Professional-grade steel and alloy selection platform for engineers, metallurgists, and material scientists. Advanced AI-powered recommendations with comprehensive material databases." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/pwa-icons/icon-512x512.svg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:url" content="https://metal-selector.com" />
+    <meta property="og:site_name" content="Metal Selector " />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Metal Selector - Advanced Material Science Platform">
+    <meta name="twitter:description" content="Professional-grade steel and alloy selection platform for engineers, metallurgists, and material scientists.">
+    <meta name="twitter:image" content="/pwa-icons/icon-512x512.svg">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="application-name" content="Metal Selector" />
+    <meta name="msapplication-TileImage" content="/pwa-icons/icon-144x144.svg" />
+    <meta name="msapplication-TileColor" content="#38BDF8" />
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" type="module">
+    <link rel="preload" href="/steeldb.csv" as="fetch" crossorigin>
+    
+    <!-- Structured Data for Material Science -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Metal Selector ",
+      "description": "Advanced material science and steel selection platform for engineers and metallurgists",
+      "url": "https://metal-selector.com",
+      "applicationCategory": "EngineeringApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Metal Selector Team"
+      },
+      "keywords": "material science, steel selection, metallurgy, engineering materials, alloy design"
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PWA Install Prompt -->
+    <div id="pwa-install-prompt" style="display: none;">
+      <div class="pwa-prompt">
+        <p>Install Metal Selector for the best experience</p>
+        <button id="pwa-install-btn">Install</button>
+        <button id="pwa-dismiss-btn">Not now</button>
+      </div>
+    </div>
+  </body>
+</html>

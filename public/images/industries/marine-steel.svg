@@ -1,0 +1,83 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="marineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0891b2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#0f172a" rx="20"/>
+  
+  <!-- Marine Components -->
+  <g filter="url(#glow)">
+    <!-- Ship Hull Structure -->
+    <path d="M 100 200 Q 200 150 300 200 L 300 250 Q 200 220 100 250 Z" fill="none" stroke="#06b6d4" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Deck -->
+    <rect x="120" y="150" width="160" height="8" rx="4" fill="url(#marineGrad)" opacity="0.9"/>
+    
+    <!-- Propeller Shaft -->
+    <line x1="200" y1="200" x2="200" y2="280" stroke="#0891b2" stroke-width="4" opacity="0.7"/>
+    
+    <!-- Hull Plates -->
+    <rect x="110" y="200" width="180" height="50" fill="none" stroke="#06b6d4" stroke-width="2" opacity="0.6"/>
+    <line x1="150" y1="200" x2="150" y2="250" stroke="#06b6d4" stroke-width="2" opacity="0.6"/>
+    <line x1="250" y1="200" x2="250" y2="250" stroke="#06b6d4" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Stainless Steel -->
+    <circle cx="100" cy="80" r="15" fill="#fbbf24" opacity="0.8"/>
+    <text x="100" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">SS</text>
+    
+    <!-- Marine Grade -->
+    <circle cx="300" cy="80" r="15" fill="#10b981" opacity="0.8"/>
+    <text x="300" y="85" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">MG</text>
+    
+    <!-- Salt Resistance -->
+    <circle cx="100" cy="220" r="15" fill="#8b5cf6" opacity="0.8"/>
+    <text x="100" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">SR</text>
+    
+    <!-- Durability -->
+    <circle cx="300" cy="220" r="15" fill="#ef4444" opacity="0.8"/>
+    <text x="300" y="225" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="bold">DU</text>
+  </g>
+  
+  <!-- Material Properties -->
+  <g opacity="0.9">
+    <text x="200" y="50" text-anchor="middle" fill="#06b6d4" font-size="14" font-weight="bold">Marine Steel & Alloys</text>
+    <text x="200" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Corrosion-Resistant Materials for Harsh Environments</text>
+  </g>
+  
+  <!-- Technical Specifications -->
+  <g opacity="0.7">
+    <text x="50" y="100" fill="#06b6d4" font-size="9" font-weight="bold">• Stainless Steel</text>
+    <text x="50" y="115" fill="#94a3b8" font-size="8">  Corrosion resistance</text>
+    
+    <text x="250" y="100" fill="#06b6d4" font-size="9" font-weight="bold">• Marine Grade Alloys</text>
+    <text x="250" y="115" fill="#94a3b8" font-size="8">  Saltwater protection</text>
+    
+    <text x="50" y="240" fill="#06b6d4" font-size="9" font-weight="bold">• Salt Resistance</text>
+    <text x="50" y="255" fill="#94a3b8" font-size="8">  Long-term durability</text>
+    
+    <text x="250" y="240" fill="#06b6d4" font-size="9" font-weight="bold">• Durability</text>
+    <text x="250" y="255" fill="#94a3b8" font-size="8">  Structural integrity</text>
+  </g>
+  
+  <!-- Marine Features -->
+  <g opacity="0.6">
+    <text x="200" y="180" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="bold">Hull Construction</text>
+    <text x="200" y="195" text-anchor="middle" fill="#94a3b8" font-size="8">Advanced Marine-Grade Steel Technology</text>
+  </g>
+  
+  <!-- Water Effect -->
+  <g opacity="0.3">
+    <path d="M 50 280 Q 100 270 150 280 Q 200 290 250 280 Q 300 270 350 280" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  </g>
+</svg>
