@@ -136,7 +136,7 @@ For mobile-optimized tables:
 **User Query:** ${query}
 
 Begin your response.
-Don't forget to store your response as user often ask further from your previous **response** ${response}
+Don't forget to store your response as user often ask further from your previous **response**
 `;
 
     try {
