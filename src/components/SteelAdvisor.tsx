@@ -7,20 +7,38 @@ import { Navbar } from './Navbar';
 import { Helmet } from 'react-helmet';
 import LoadingSpinner from './LoadingSpinner';
 import { useSearchParams } from 'react-router-dom';
-import { BeakerIcon, SparklesIcon, ShieldCheckIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
+import { BeakerIcon, SparklesIcon, ShieldCheckIcon, AcademicCapIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import './SteelAdvisor.css';
+
+// Define the ChatMessage type for better type safety
+interface ChatMessage {
+  id: string;
+  sender: string;
+  text: string;
+  timestamp: number;
+  followupQuestions?: string[];
+}
 
 const SteelAdvisor = () => {
   const [steelData, setSteelData] = useState("");
-  const [messages, setMessages] = useState<{ sender: string, text: string }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [searchParams] = useSearchParams();
+  const [showFollowupQuestions, setShowFollowupQuestions] = useState<{[key: string]: boolean}>({});
+  const [recommendedQuestions, setRecommendedQuestions] = useState<string[]>([
+    "What steel grade is best for automotive chassis components?",
+    "Can you compare AISI 304 and 316 stainless steel properties?",
+    "What are the most cost-effective steel options for marine applications?",
+    "Which steel is suitable for high-temperature environments?",
+    "What are the corrosion-resistant steel grades?"
+  ]);
 
   // Track if this is the first load
   const isInitialMount = useRef(true);
   const hasAutoSent = useRef(false);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
 
   // NEW: remember the last prefilled query we've already consumed
   const lastPrefilledQuery = useRef<string | null>(null);
@@ -32,20 +50,24 @@ const SteelAdvisor = () => {
       header: true,
       complete: function (results) {
         setSteelData(Papa.unparse(results.data));
-        console.log("CSV loaded, rows:", results.data.length);
         setIsLoading(false);
         // Only add the welcome message on first load
         if (isInitialMount.current) {
-          appendMessage("bot", "🔬 **Welcome to Metal Selector Steel Advisor!**\n\nI'm your AI-powered metallurgical expert, ready to help you select the perfect steel grade for your application. I have access to a comprehensive database of steel grades with detailed mechanical, thermal, and chemical properties.\n\n**What can I help you with today?**\n• Material selection for specific applications\n• Property comparisons between steel grades\n• Industry-specific recommendations (Aerospace, Automotive, Marine, Construction)\n• Cost-performance optimization\n• Standards compliance (ASTM, AISI, SAE)\n\nPlease describe your application requirements, and I'll provide expert recommendations!");
+          appendMessage("bot", "🔬 **Welcome to Metal Selector Steel Advisor!**\n\nI'm your AI-powered metallurgical expert, ready to help you select the perfect steel grade for your application. I have access to a comprehensive database of steel grades with detailed mechanical, thermal, and chemical properties.\n\n**What can I help you with today?**\n• Material selection for specific applications\n• Property comparisons between steel grades\n• Industry-specific recommendations (Aerospace, Automotive, Marine, Construction)\n• Cost-performance optimization\n• Standards compliance (ASTM, AISI, SAE)\n\nPlease describe your application requirements, and I'll provide expert recommendations!", [
+            "What steel grade is best for automotive chassis components?",
+            "Can you compare AISI 304 and 316 stainless steel properties?",
+            "What are the most cost-effective steel options for marine applications?"
+          ]);
           isInitialMount.current = false;
+          loadChatHistory();
         }
       },
       error: function (error) {
-        console.error("Error loading CSV:", error);
         setIsLoading(false);
         appendMessage("bot", "⚠️ **Database Connection Error**\n\nI'm experiencing technical difficulties accessing the steel database. Please try again in a moment, or contact our support team if the issue persists.\n\n**Error Details:** Database connection timeout");
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   // Handle pre-filled query from URL parameters (consume each value only once)
@@ -61,39 +83,181 @@ const SteelAdvisor = () => {
   // Auto-send pre-filled query
   useEffect(() => {
     const query = searchParams.get('query');
-    if (query && userInput === query && steelData && !isLoading && messages.length === 1 && !hasAutoSent.current) {
-      // Only auto-send if we have the welcome message and the query is set
+    // Only auto-send if query is present, matches userInput, steelData is loaded, not loading, and we haven't sent this query yet
+    if (
+      query &&
+      userInput === query &&
+      steelData &&
+      !isLoading &&
+      !hasAutoSent.current
+    ) {
       hasAutoSent.current = true;
       const timer = setTimeout(() => {
         sendMessage();
-      }, 1000); // Small delay to ensure UI is ready
-
+      }, 500); // shorter delay for better UX
       return () => clearTimeout(timer);
     }
-  }, [userInput, steelData, isLoading, messages.length, searchParams]);
+  }, [userInput, steelData, isLoading, searchParams]);
+
+  // Save chat history to cache
+  const saveChatHistory = () => {
+    if (messages.length > 1) {
+      try {
+        localStorage.setItem('steelAdvisorChatHistory', JSON.stringify(messages));
+      } catch (error) {
+        // Ignore cache errors
+      }
+    }
+  };
+
+  // Load chat history from cache
+  const loadChatHistory = () => {
+    try {
+      const savedHistory = localStorage.getItem('steelAdvisorChatHistory');
+      if (savedHistory) {
+        const parsedHistory = JSON.parse(savedHistory) as ChatMessage[];
+        if (parsedHistory.length > 0) {
+          setMessages(parsedHistory);
+        }
+      }
+    } catch (error) {
+      // Ignore cache errors
+    }
+  };
+
+  // Clear chat history
+  const clearChatHistory = () => {
+    try {
+      localStorage.removeItem('steelAdvisorChatHistory');
+      setMessages([]);
+      isInitialMount.current = true;
+      appendMessage("bot", "🔬 **Welcome to Metal Selector Steel Advisor!**\n\nI'm your AI-powered metallurgical expert, ready to help you select the perfect steel grade for your application. I have access to a comprehensive database of steel grades with detailed mechanical, thermal, and chemical properties.\n\n**What can I help you with today?**\n• Material selection for specific applications\n• Property comparisons between steel grades\n• Industry-specific recommendations (Aerospace, Automotive, Marine, Construction)\n• Cost-performance optimization\n• Standards compliance (ASTM, AISI, SAE)\n\nPlease describe your application requirements, and I'll provide expert recommendations!", [
+        "What steel grade is best for automotive chassis components?",
+        "Can you compare AISI 304 and 316 stainless steel properties?",
+        "What are the most cost-effective steel options for marine applications?"
+      ]);
+    } catch (error) {
+      // Ignore cache errors
+    }
+  };
+
+  // --- Dynamically update recommended questions after each bot reply ---
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      if (lastMsg.sender === "bot") {
+        const newQuestions = generateFollowupQuestions(lastMsg.text);
+        const generic = [
+          "What steel grade is best for automotive chassis components?",
+          "Can you compare AISI 304 and 316 stainless steel properties?",
+          "What are the most cost-effective steel options for marine applications?",
+          "Which steel is suitable for high-temperature environments?",
+          "What are the corrosion-resistant steel grades?"
+        ];
+        setRecommendedQuestions([
+          ...newQuestions,
+          ...generic.filter(q => !newQuestions.includes(q))
+        ].slice(0, 3));
+      }
+    }
+    // eslint-disable-next-line
+  }, [messages]);
+
+  // --- When user clicks a recommended question, send it immediately ---
+  const handleRecommendedQuestionClick = (question: string) => {
+    setUserInput(""); // Clear input immediately for UI
+    sendMessage(question); // Send the question directly
+  };
 
   // Append messages (supports markdown for bot)
-  const appendMessage = (sender: string, text: string) => {
-    setMessages(prev => [...prev, { sender, text }]);
-
-    // Auto-scroll to bottom when new message is added
+  const appendMessage = (sender: string, text: string, followupQuestions?: string[]) => {
+    const newMessage: ChatMessage = {
+      id: Date.now().toString(),
+      sender,
+      text,
+      timestamp: Date.now(),
+      followupQuestions
+    };
+    setMessages(prev => {
+      const updatedMessages = [...prev, newMessage];
+      setTimeout(() => saveChatHistory(), 0);
+      return updatedMessages;
+    });
     setTimeout(() => {
-      const chatWindow = document.querySelector('.chat-window');
-      if (chatWindow) {
-        (chatWindow as HTMLElement).scrollTop = (chatWindow as HTMLElement).scrollHeight;
+      if (chatWindowRef.current) {
+        chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
       }
     }, 100);
   };
 
+  // Toggle followup questions visibility
+  const toggleFollowupQuestions = (messageId: string) => {
+    setShowFollowupQuestions(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
+  };
+
+  // Update handleFollowupQuestionClick to send immediately
+  const handleFollowupQuestionClick = (question: string) => {
+    setUserInput(""); // Clear input immediately for UI
+    sendMessage(question); // Send the follow-up question directly
+  };
+
+  // Generate followup questions based on AI response
+  const generateFollowupQuestions = (aiResponse: string): string[] => {
+    const topics = extractTopics(aiResponse);
+    const questions = [];
+    if (topics.includes('steel grade') || topics.includes('material')) {
+      questions.push("What are the manufacturing challenges with this material?");
+    }
+    if (topics.includes('properties') || topics.includes('strength') || topics.includes('hardness')) {
+      questions.push("How do these properties change at elevated temperatures?");
+    }
+    if (topics.includes('cost') || topics.includes('price')) {
+      questions.push("What factors affect the cost of this material?");
+    }
+    if (topics.includes('application') || topics.includes('industry')) {
+      questions.push("Are there alternative materials for this application?");
+    }
+    if (topics.includes('corrosion') || topics.includes('environment')) {
+      questions.push("How does this material perform in highly corrosive environments?");
+    }
+    if (questions.length < 3) {
+      questions.push(
+        "Can you provide more detailed specifications?",
+        "What are the typical heat treatment processes for this material?",
+        "How does this compare to industry standards?"
+      );
+    }
+    return questions.slice(0, 3);
+  };
+
+  // Extract key topics from AI response
+  const extractTopics = (text: string): string[] => {
+    const topics = [];
+    const lower = text.toLowerCase();
+    if (lower.includes('steel grade') || lower.includes('grade')) topics.push('steel grade');
+    if (lower.includes('properties') || lower.includes('characteristics')) topics.push('properties');
+    if (lower.includes('strength') || lower.includes('tensile') || lower.includes('yield')) topics.push('strength');
+    if (lower.includes('hardness') || lower.includes('hrc') || lower.includes('brinell')) topics.push('hardness');
+    if (lower.includes('cost') || lower.includes('price') || lower.includes('economic')) topics.push('cost');
+    if (lower.includes('application') || lower.includes('use case')) topics.push('application');
+    if (lower.includes('industry') || lower.includes('sector')) topics.push('industry');
+    if (lower.includes('corrosion') || lower.includes('rust') || lower.includes('oxidation')) topics.push('corrosion');
+    if (lower.includes('environment') || lower.includes('exposure')) topics.push('environment');
+    return topics;
+  };
+
   // Send to Gemini
-  const sendMessage = async () => {
-    if (!userInput.trim() || !steelData) {
+  const sendMessage = async (inputOverride?: string) => {
+    const input = (inputOverride ?? userInput).trim();
+    if (!input || !steelData) {
       appendMessage("bot", "⚠️ **Input Validation Error**\n\nPlease ensure you've provided a valid query and that the steel database has loaded successfully. If you continue to experience issues, please refresh the page or contact our technical support team.");
       return;
     }
 
-    const query = userInput.trim();
-    appendMessage("user", query);
+    appendMessage("user", input);
     setUserInput("");
 
     const prompt = `You are a distinguished steel selection expert with extensive knowledge in metallurgy, materials science, and industrial applications. Your advice is sought after by engineers and manufacturers worldwide.
@@ -121,9 +285,12 @@ Your response should be:
 - Free of unnecessary technical jargon while maintaining professional terminology
 - Formatted with adequate spacing between sections for better readability
 - Optimized for quick understanding on mobile devices
+
+IMPORTANT: After answering the user's query, identify 1-2 key aspects that would benefit from further clarification. At the end of your response, include 1-2 follow-up questions that you would ask the user to better understand their needs or to provide more targeted information. These questions should be directly relevant to the user's query and demonstrate your expertise in metallurgy. Format these questions as "**Follow-up Question:** [your question here]"
+
 Start with short answer to the user's query, followed by detailed analysis and recommendations.(Do not include any reference to mobile optimization in the response)
 
-**User Query:** ${query}
+**User Query:** ${input}
 
 Provide a comprehensive, authoritative response that demonstrates your expertise and helps the user make an informed material selection decision.`;
 
@@ -132,7 +299,6 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
       setIsTyping(true);
 
       // Show typing indicator
-      const typingMessageId = Date.now().toString();
       appendMessage("bot-typing", "🔬 Analyzing steel data and consulting industry standards...");
 
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDePZwuwO2S9lD_A6ITUFp-0mOjaTyA1LE", {
@@ -148,10 +314,9 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
 
       // Remove typing indicator and add actual response
       setMessages(prev => prev.filter(msg => msg.sender !== "bot-typing"));
-      appendMessage("bot", reply);
+      const followupQuestions = generateFollowupQuestions(reply);
+      appendMessage("bot", reply, followupQuestions);
     } catch (err) {
-      console.error(err);
-      // Remove typing indicator in case of error
       setMessages(prev => prev.filter(msg => msg.sender !== "bot-typing"));
       appendMessage("bot", "⚠️ **Technical Error**\n\nI'm experiencing a connection issue with the AI processing service. This may be due to:\n\n• Network connectivity issues\n• High server load\n• Temporary service maintenance\n\n**Recommended Actions:**\n1. Check your internet connection\n2. Wait a few moments and try again\n3. Contact our technical support if the issue persists\n\n**Error Code:** AI_SERVICE_TIMEOUT");
     } finally {
@@ -172,15 +337,11 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
       <Helmet>
         <title>Steel Advisor  - AI-Powered Metallurgical Expert | Metal Selector</title>
         <meta name="description" content="Get expert metallurgical advice from our AI-powered Steel Advisor. Professional steel selection for aerospace, automotive, marine, and construction applications." />
-
-        {/* Open Graph / Social Media - Specific for Steel Advisor */}
         <meta property="og:title" content="Steel Advisor  - AI-Powered Metallurgical Expert" />
         <meta property="og:description" content="Professional metallurgical consultation with AI-powered steel selection for critical engineering applications." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/pwa-icons/icon-512x512.svg" />
         <meta property="og:url" content="https://metal-selector.com/steel-advisor" />
-
-        {/* Twitter Card - Specific for Steel Advisor */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Steel Advisor  - AI-Powered Metallurgical Expert" />
         <meta name="twitter:description" content="Professional metallurgical consultation with AI-powered steel selection for critical engineering applications." />
@@ -202,11 +363,9 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
               </h1>
               <SparklesIcon className="h-6 w-6 text-purple-400 animate-pulse" />
             </div>
-
             <p className="text-sm text-slate-300 mb-2">
               AI-Powered Metallurgical Expert • Professional Grade Recommendations
             </p>
-
             {searchParams.get('query') && (
               <div className="inline-flex items-center space-x-2 bg-cyan-500/20 px-3 py-1 rounded-full border border-cyan-400/30">
                 <ShieldCheckIcon className="h-4 w-4 text-cyan-400" />
@@ -217,8 +376,23 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
             )}
           </div>
 
+          {/* Action buttons */}
+          <div className="flex justify-end space-x-2 mb-4">
+            <button 
+              onClick={clearChatHistory}
+              className="flex items-center space-x-1 text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-1.5 rounded-lg transition-all duration-200"
+              title="Clear chat history"
+            >
+              <ArrowPathIcon className="h-3.5 w-3.5" />
+              <span>Clear</span>
+            </button>
+          </div>
+
           {/* Enhanced Chat window */}
-          <div className="chat-window flex-1 overflow-y-auto border border-slate-700 rounded-xl p-4 sm:p-6 space-y-4 bg-slate-900/50 h-[calc(100vh-320px)] sm:h-[600px]">
+          <div 
+            ref={chatWindowRef}
+            className="chat-window flex-1 overflow-y-auto border border-slate-700 rounded-xl p-4 sm:p-6 space-y-4 bg-slate-900/50 h-[calc(100vh-320px)] sm:h-[600px]"
+          >
             {isLoading && messages.length === 0 ? (
               <div className="text-slate-400 text-sm flex justify-center items-center h-full">
                 <div className="flex flex-col items-center space-y-3">
@@ -231,7 +405,7 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
               </div>
             ) : (
               messages.map((msg, index) => (
-                <div key={index} className={`${msg.sender === "user" ? "text-right" : "text-left"} mb-4`}>
+                <div key={msg.id} className={`${msg.sender === "user" ? "text-right" : "text-left"} mb-4`}>
                   {msg.sender === "user" ? (
                     <div className="inline-flex items-center space-x-2">
                       <div className="inline-block px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white max-w-[85%] break-words shadow-lg">
@@ -256,17 +430,59 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
                       <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
                         <BeakerIcon className="h-4 w-4 text-white" />
                       </div>
-                      <div
-                        className="px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 prose prose-sm max-w-none prose-invert overflow-x-auto shadow-lg"
-                        dangerouslySetInnerHTML={{
-                          __html: marked.parse(msg.text)
-                        }}
-                      />
+                      <div className="flex flex-col space-y-3 w-full">
+                        <div
+                          className="px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 prose prose-sm max-w-none prose-invert overflow-x-auto shadow-lg"
+                          dangerouslySetInnerHTML={{
+                            __html: marked.parse(msg.text)
+                          }}
+                        />
+                        {/* Followup questions */}
+                        {msg.followupQuestions && msg.followupQuestions.length > 0 && (
+                          <div className="pl-2">
+                            <button 
+                              onClick={() => toggleFollowupQuestions(msg.id)}
+                              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center space-x-1"
+                            >
+                              <span>{showFollowupQuestions[msg.id] ? 'Hide follow-up questions' : 'Show follow-up questions'}</span>
+                            </button>
+                            {showFollowupQuestions[msg.id] && (
+                              <div className="mt-2 space-y-2">
+                                {msg.followupQuestions.map((question, qIndex) => (
+                                  <button
+                                    key={qIndex}
+                                    onClick={() => handleFollowupQuestionClick(question)}
+                                    className="block text-left text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-2 rounded-lg w-full transition-all duration-200 border border-slate-700 hover:border-slate-600"
+                                  >
+                                    {question}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
               ))
             )}
+          </div>
+
+          {/* Recommended Questions */}
+          <div className="mb-4">
+            <div className="text-sm font-semibold text-cyan-300 mb-2">Recommended Questions:</div>
+            <div className="flex flex-wrap gap-2">
+              {recommendedQuestions.map((q, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleRecommendedQuestionClick(q)}
+                  className="bg-slate-700 hover:bg-cyan-600 text-xs text-cyan-100 px-3 py-2 rounded-lg transition-all duration-200 border border-slate-600 hover:border-cyan-400"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Enhanced Input */}
@@ -281,9 +497,6 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
                 className="w-full border border-slate-600 bg-slate-700 rounded-l-xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-white placeholder-slate-400 transition-all duration-200"
                 aria-label="Ask the Steel Advisor about material selection"
               />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-slate-500">
-                Press Enter to send
-              </div>
             </div>
             <button
               onClick={sendMessage}
