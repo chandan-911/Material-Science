@@ -437,30 +437,6 @@ Provide a comprehensive, authoritative response that demonstrates your expertise
                             __html: marked.parse(msg.text)
                           }}
                         />
-                        {/* Followup questions */}
-                        {msg.followupQuestions && msg.followupQuestions.length > 0 && (
-                          <div className="pl-2">
-                            <button 
-                              onClick={() => toggleFollowupQuestions(msg.id)}
-                              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center space-x-1"
-                            >
-                              <span>{showFollowupQuestions[msg.id] ? 'Hide follow-up questions' : 'Show follow-up questions'}</span>
-                            </button>
-                            {showFollowupQuestions[msg.id] && (
-                              <div className="mt-2 space-y-2">
-                                {msg.followupQuestions.map((question, qIndex) => (
-                                  <button
-                                    key={qIndex}
-                                    onClick={() => handleFollowupQuestionClick(question)}
-                                    className="block text-left text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-2 rounded-lg w-full transition-all duration-200 border border-slate-700 hover:border-slate-600"
-                                  >
-                                    {question}
-                                  </button>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        )}
                       </div>
                     </div>
                   )}
